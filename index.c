@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <string.h>
 #include <stdlib.h>
 
 //Chamada de funções internas
@@ -23,7 +23,7 @@ struct Cadastro {
 
 struct Login {
     char Usuario[25];
-    char Senha[20];
+    int Senha[6];
 }; // Variáveis do tipo Login.Usuario
 
 FILE * DBLOGIN; //Ponteiro do Banco de dados do login
@@ -63,11 +63,11 @@ int main() {
 
 void primeiroAcesso() {
     system("clear");
-    DBLOGIN = fopen("dadoslogin.txt", "a"); //Abertura do DB para a inserção de dados
+
+    DBLOGIN = fopen("dadoslogin.txt", "r"); //Abertura do DB para a inserção de dados
 
     if (DBLOGIN == NULL) { //Verificação do Banco de Dados
         printf("\nErro no Banco de Dados...\n");
-        return;
     } else {
         printf("\nDigite o seu Usuario desejado: ");
         fgets(LoginUsuario.Usuario, 25, stdin); //Recebe a String Nome
@@ -76,9 +76,7 @@ void primeiroAcesso() {
         fgets(LoginUsuario.Senha, 20, stdin); //Recebe a String Email
     }
 
-    fprintf(DBLOGIN, "----------------------\n"); //Salva os dados
     fprintf(DBLOGIN, "Usuario: %sSenha: %s", LoginUsuario.Usuario, LoginUsuario.Senha);
-    fprintf(DBLOGIN, "----------------------\n"); //Salva os dados
 
     fclose(DBLOGIN); //Fecha o Banco de dados
 
@@ -88,24 +86,52 @@ void primeiroAcesso() {
 void login() {
     system("clear"); //Limpa a tela (Linux)
 
-    printf("Usuario: ");
-    fgets(LoginUsuario.Usuario, 25, stdin); //Recebe a String Nome
+    DBLOGIN = fopen("dadoslogin.txt", "r");
 
-    printf("\nSenha: ");
-    fgets(LoginUsuario.Senha, 20, stdin); //Recebe a String Email
+    if (DBLOGIN == NULL) { //Verificação do Banco de dados
+        printf("\nErro no Banco de Dados...\n");
+    } else {
+        printf("Usuario: ");
+        fgets(LoginUsuario.Usuario, 25, stdin); //Recebe a String Nome
 
-    char listagem[250]; //String geral para os dados
+        printf("\nSenha: ");
+        fgets(LoginUsuario.Senha, 6, stdin); //Recebe a String Email
 
-    while (fgets(listagem, 250, DBLOGIN) != NULL) {
-        printf("%s", listagem);
-    } //Considera todos os dados como uma String e exibe na tela
+        char listagem[250]; //String geral para os dados
+        system("clear"); //Limpa a tela (Linux)
 
-    fclose(DB);
+        int count = 0;
+
+        while (fgets(listagem, 250, DBLOGIN) != NULL) {
+            if (strstr(listagem, LoginUsuario.Usuario) != NULL) {
+                // printf("found substring at address %s\n", LoginUsuario.Usuario);
+                // printf(listagem);
+            } else {
+                // printf("no substring found!\n");
+            }
+
+            if (strstr(listagem, LoginUsuario.Senha) != NULL) {
+                // printf("found substring at address %s\n", LoginUsuario.Senha);
+                // printf(listagem);
+            } else {
+                // printf("no substring found!\n");
+            }
+
+            printf(count);
+            count++;
+        } //Considera todos os dados como uma String e exibe na tela
+
+        // printf("usuario=%s and senha=%d\n", listagem);
+        // printf("usuario=%s and u=%s\n", LoginUsuario.Usuario, listagem);
+        // printf("senha=%s and s=%s\n", LoginUsuario.Senha, listagem);
+
+        fclose(DB);
+    }
 }
 
 void menu() {
     system("clear"); //Limpa a tela (Linux)
-    
+
     printf("=========================\n");
     printf(" GERENCIADOR DE PACIENTES\n");
     printf("=========================\n\n");
