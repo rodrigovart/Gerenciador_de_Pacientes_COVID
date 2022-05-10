@@ -12,7 +12,7 @@ void menu();
 void removeSubstr();
 int cadastro();
 int listar();
-int validaLogin(char* str1, char* str2);
+int validaLogin(char * str1, char * str2);
 
 struct VarG {
     int Op;
@@ -41,7 +41,7 @@ struct Cadastro Paciente;
 struct Login LoginUsuario;
 
 int main() {
-     //Limpa a tela (Windows)
+    //Limpa a tela (Windows)
     system("clear");
     printf("=========================\n");
     printf(" LOGIN NO SISTEMA 🔐\n");
@@ -68,9 +68,9 @@ int main() {
 } //Fim da Função Principal
 
 void primeiroAcesso() {
-    
+
     system("clear");
-    DBLOGIN = fopen("dadoslogin.txt", "r"); //Abertura do DB para a inserção de dados
+    DBLOGIN = fopen("dadoslogin.txt", "a"); //Abertura do DB para a inserção de dados
 
     if (DBLOGIN == NULL) { //Verificação do Banco de Dados
         printf("\nErro no Banco de Dados...\n");
@@ -82,14 +82,15 @@ void primeiroAcesso() {
         fgets(LoginUsuario.Senha, 20, stdin); //Recebe a String Email
     }
 
-    fprintf(DBLOGIN, "Usuario: %sSenha: %s", LoginUsuario.Usuario, LoginUsuario.Senha);
+    fprintf(DBLOGIN, "%s", LoginUsuario.Usuario);
+    fprintf(DBLOGIN, "%s", LoginUsuario.Senha);
 
     fclose(DBLOGIN); //Fecha o Banco de dados
 
     login();
 }
 
-void login(int* clear) {
+void login(int * clear) {
 
     if (clear != 1)
         system("clear");
@@ -109,7 +110,9 @@ void login(int* clear) {
         system("clear");
 
         char buffer[MAX_LENGTH];
-        char arr[NUM_STRINGS][MAX_LENGTH] = {""};
+        char arr[NUM_STRINGS][MAX_LENGTH] = {
+            ""
+        };
 
         int i = 0;
 
@@ -127,11 +130,11 @@ void login(int* clear) {
                 int result2 = validaLogin(arr[1], LoginUsuario.Senha);
 
                 if (result == 0 && result2 == 0)
+                    system("clear");
                     menu();
                 else
                     printf("Usuário ou Senha Inválidos ❌🔐! Tente novamente...\n\n\n");
-                    login(1);
-                    break;
+                    // login(1);
             }
         }
 
@@ -140,16 +143,16 @@ void login(int* clear) {
     }
 }
 
-int validaLogin(char* str1, char* str2) {
-   return strcmp(str1, str2);
+int validaLogin(char * str1, char * str2) {
+    return strcmp(str1, str2);
 }
 
 void menu() {
-     //Limpa a tela (Windows)
-system("clear");
-    printf("=========================\n");
+    //Limpa a tela (Windows)
+    system("clear");
+    printf("=================================\n");
     printf(" GERENCIADOR DE PACIENTES 🚑👨🏻‍⚕️\n");
-    printf("=========================\n\n");
+    printf("================================\n\n");
 
     printf("1️⃣ - Cadastrar ✅\n");
     printf("2️⃣ - Alterar ✅\n");
@@ -167,7 +170,7 @@ system("clear");
             cadastro(); //Funcão Cadastro é iniciada
             break;
         case 2:
-            
+
             system("clear");
 
             printf("=========\n");
@@ -192,8 +195,8 @@ system("clear");
             listar(); //Função Listar é iniciada
             break;
         case 4:
-            
-system("clear");
+
+            system("clear");
 
             printf("=========\n");
             printf(" REMOVER ❌\n");
@@ -214,7 +217,7 @@ system("clear");
             }
             break;
         case 5:
-            
+
             system("clear");
             printf("######################\n");
             printf("# Fim da Execução... #\n");
@@ -228,8 +231,8 @@ system("clear");
 }
 
 int cadastro() {
-    
-system("clear");
+
+    system("clear");
     DB = fopen("dados.txt", "a"); //Abertura do DB para a inserção de dados
 
     if (DB == NULL) { //Verificação do Banco de Dados
@@ -253,8 +256,8 @@ system("clear");
         printf("\nDigite seu Telefone: ");
         fgets(Paciente.Telefone, 15, stdin); //Recebe a String Telefone
 
-        
-system("clear");
+
+        system("clear");
         printf("\n=============================\n");
         printf("Finalizar cadastro? [s/n] : ");
         scanf("%c", & GlobalPaciente.Cd); //Conclusão do cadastro
@@ -265,14 +268,14 @@ system("clear");
 
             fclose(DB); //Fecha o Banco de dados
 
-            
-system("clear");
+
+            system("clear");
             printf("######################\n");
             printf("# Cadastro Concluído ✅#\n");
             printf("######################\n");
             main();
         } else if (GlobalPaciente.Cd == 'n') {
-            
+
             system("clear");
             printf("Cadastro Cancelado.\nVoltando ao Menu Principal...\n");
             fclose(DB); //Fecha DB
@@ -290,7 +293,7 @@ system("clear");
 } //Fim da função Cadastro
 
 int listar() {
-    
+
     system("clear");
     DB = fopen("dados.txt", "r"); //Abertura do DB para leitura de dados
 
@@ -325,11 +328,11 @@ int listar() {
 
 } //Fim da função Listar
 
-void removeSubstr(char *string, char *sub) {
-    char *match;
+void removeSubstr(char * string, char * sub) {
+    char * match;
     int len = strlen(sub);
     while ((match = strstr(string, sub))) {
-        *match = '\0';
-        strcat(string, match+len);
+        * match = '\0';
+        strcat(string, match + len);
     }
 }
