@@ -9,7 +9,6 @@
 void primeiroAcesso();
 void login();
 void menu();
-void removeSubstr();
 int cadastro();
 int listar();
 int validaLogin(char * str1, char * str2);
@@ -110,9 +109,7 @@ void login(int * clear) {
         system("clear");
 
         char buffer[MAX_LENGTH];
-        char arr[NUM_STRINGS][MAX_LENGTH] = {
-            ""
-        };
+        char arr[NUM_STRINGS][MAX_LENGTH] = {""};
 
         int i = 0;
 
@@ -129,12 +126,14 @@ void login(int * clear) {
                 int result = validaLogin(arr[0], LoginUsuario.Usuario);
                 int result2 = validaLogin(arr[1], LoginUsuario.Senha);
 
-                if (result == 0 && result2 == 0)
-                    system("clear");
+                system("clear");
+
+                if (result == 0 && result2 == 0) {
                     menu();
-                else
+                } else {
                     printf("Usuário ou Senha Inválidos ❌🔐! Tente novamente...\n\n\n");
                     // login(1);
+                }
             }
         }
 
@@ -152,7 +151,7 @@ void menu() {
     system("clear");
     printf("=================================\n");
     printf(" GERENCIADOR DE PACIENTES 🚑👨🏻‍⚕️\n");
-    printf("================================\n\n");
+    printf("=================================\n\n");
 
     printf("1️⃣ - Cadastrar ✅\n");
     printf("2️⃣ - Alterar ✅\n");
@@ -173,9 +172,9 @@ void menu() {
 
             system("clear");
 
-            printf("=========\n");
+            printf("==============\n");
             printf(" ALTERAR ✅\n");
-            printf("=========\n\n");
+            printf("==============\n\n");
 
             printf("Para alterar os dados de um cadastro, acesse o\narquivo ");
             printf("dados.txt e modifique manualmente através\nde um editor ");
@@ -185,10 +184,10 @@ void menu() {
             scanf("%c", & GlobalPaciente.Cd);
 
             if (GlobalPaciente.Cd == 's') {
-                main();
+                menu();
             } else if (GlobalPaciente.Cd != 's' && GlobalPaciente.Cd != 'n') {
                 printf("Valor inválido.\nVoltando ao Menu Principal...\n");
-                main();
+                menu();
             }
             break;
         case 3:
@@ -210,10 +209,10 @@ void menu() {
             scanf("%c", & GlobalPaciente.Cd);
 
             if (GlobalPaciente.Cd == 's') {
-                main();
+                menu();
             } else if (GlobalPaciente.Cd != 's' && GlobalPaciente.Cd != 'n') {
                 printf("Valor inválido.\nVoltando ao Menu Principal...\n");
-                main();
+                menu();
             }
             break;
         case 5:
@@ -240,9 +239,9 @@ int cadastro() {
         return 1;
 
     } else {
-        printf("==========\n");
+        printf("==============\n");
         printf(" CADASTRO ✅\n");
-        printf("==========\n");
+        printf("==============\n");
 
         printf("\nNome: ");
         fgets(Paciente.Nome, 25, stdin); //Recebe a String Nome
@@ -263,24 +262,24 @@ int cadastro() {
         scanf("%c", & GlobalPaciente.Cd); //Conclusão do cadastro
 
         if (GlobalPaciente.Cd == 's') {
-            fprintf(DB, "Nome: %sE-mail: %sCPF: %s", Paciente.Nome, Paciente.Email, Paciente.Cpf, Paciente.Telefone);
+            fprintf(DB, "Nome: %sE-mail: %sCPF: %sTelefone: %s", Paciente.Nome, Paciente.Email, Paciente.Cpf, Paciente.Telefone);
             fprintf(DB, "----------------------\n"); //Salva os dados
 
             fclose(DB); //Fecha o Banco de dados
 
 
             system("clear");
-            printf("######################\n");
+            printf("##########################\n");
             printf("# Cadastro Concluído ✅#\n");
-            printf("######################\n");
-            main();
+            printf("#########################\n");
+            menu();
         } else if (GlobalPaciente.Cd == 'n') {
 
             system("clear");
             printf("Cadastro Cancelado.\nVoltando ao Menu Principal...\n");
             fclose(DB); //Fecha DB
             getchar(); //Corrige bug quando GlobalPaciente.Cd != 's' && 'n'
-            main();
+            menu();
         } else {
             printf("Valor inválido. Tente novamente...\n");
             fclose(DB); //Fecha DB
@@ -301,9 +300,9 @@ int listar() {
         printf("\nErro no Banco de Dados...\n");
         return 1;
     } else {
-        printf("======================\n");
+        printf("===========================\n");
         printf(" LISTAGEM DE PACIENTES 📄\n");
-        printf("======================\n\n");
+        printf("===========================\n\n");
 
         char listagem[250]; //String geral para os dados
 
@@ -327,12 +326,3 @@ int listar() {
     return 0;
 
 } //Fim da função Listar
-
-void removeSubstr(char * string, char * sub) {
-    char * match;
-    int len = strlen(sub);
-    while ((match = strstr(string, sub))) {
-        * match = '\0';
-        strcat(string, match + len);
-    }
-}
