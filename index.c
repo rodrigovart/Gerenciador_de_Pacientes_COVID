@@ -159,7 +159,7 @@ void menu() {
     printf("4️⃣ - Remover 🗑\n\n");
 
     printf("5️⃣ - Encerrar ❌\n");
-    printf("===============\n");
+    printf("=================================\n");
     printf("Opcao 🧐: ");
     scanf("%d", & GlobalPaciente.Op);
     getchar(); //Limpa o Buffer
@@ -197,9 +197,9 @@ void menu() {
 
             system("clear");
 
-            printf("=========\n");
+            printf("==============\n");
             printf(" REMOVER ❌\n");
-            printf("=========\n\n");
+            printf("==============\n\n");
 
             printf("Para remover os dados de um paciente, acesse\no arquivo ");
             printf("dados.txt e realize o processo \nmanualmente, salvando o ");
