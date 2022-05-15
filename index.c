@@ -373,14 +373,13 @@ void grupoRisco() {
     int comorbidade = 0;
     if (str2int(&comorbidade, Paciente.Comorbidade, 10) == STR2INT_SUCCESS) {
         if ((anos >= E_GRUPO_RISCO) || (anos >= E_GRUPO_RISCO && comorbidade < 5)) {
-            printf("%s", "grupo de risco");
                 DB = fopen("dadoscomorbidade.txt", "a"); //Abertura do DB para a inserção de dados
                 fprintf(DB, "Nome: %sIdade: %dCEP: %s", Paciente.Nome, anos, Paciente.CEP);
                 fprintf(DB, "----------------------\n"); //Salva os dados
                 fclose(DB); //Fecha o Banco de dados
         }
     }
-    
+
     system("clear");
     cadastro();
 }
