@@ -12,7 +12,7 @@ void primeiroAcesso();
 void login();
 void menu();
 void comorbidade();
-void dataAtual();
+void grupoRisco();
 int cadastro();
 int listar();
 int validaLogin(char * str1, char * str2);
@@ -31,6 +31,7 @@ struct Cadastro {
     char DataDiagnostico[10];
     char Comorbidade[20];
     char Endereco[100];
+    char CEP[20];
 }; // Variáveis do tipo Cadastro.Paciente
 
 struct Login {
@@ -47,11 +48,13 @@ struct VarG GlobalPaciente;
 struct Cadastro Paciente;
 struct Login LoginUsuario;
 
+typedef enum {
+    E_GRUPO_RISCO = 65,
+    N_E_GRUPO_RISCO
+} grupo_risco;
+
 int main() {
-printf("\nDigite a Data de Nascimento: ");
-        fgets(Paciente.Nascimento, 15, stdin); //Recebe a String Nascimento
-dataAtual();
-return 0;
+
     //Limpa a tela (Windows)
     system("clear");
     printf("=========================\n");
@@ -265,13 +268,16 @@ int cadastro() {
         fgets(Paciente.Cpf, 15, stdin); //Recebe a String Cpf
 
         printf("\nDigite a Data de Nascimento: ");
-        fgets(Paciente.Nascimento, 15, stdin); //Recebe a String Nascimento
+        fgets(Paciente.Nascimento, 10, stdin); //Recebe a String Nascimento
 
         printf("\nDigite seu Telefone: ");
-        fgets(Paciente.Telefone, 25, stdin); //Recebe a String Telefone
+        fgets(Paciente.Telefone, 15, stdin); //Recebe a String Telefone
 
         printf("\nDigite seu Endereço Completo: ");
-        fgets(Paciente.Endereco, 15, stdin); //Recebe a String Endereço
+        fgets(Paciente.Endereco, 100, stdin); //Recebe a String Endereço
+
+        printf("\nDigite seu CEP: ");
+        fgets(Paciente.CEP, 20, stdin); //Recebe a String CEP
 
         printf("\nDigite a Data do Diagnóstico: ");
         fgets(Paciente.DataDiagnostico, 15, stdin); //Recebe a String DataDiagnostico
@@ -289,14 +295,12 @@ int cadastro() {
 
             fclose(DB); //Fecha o Banco de dados
 
-
             system("clear");
             printf("##########################\n");
             printf("# Cadastro Concluído ✅#\n");
             printf("#########################\n");
             menu();
         } else if (GlobalPaciente.Cd == 'n') {
-
             system("clear");
             printf("Cadastro Cancelado.\nVoltando ao Menu Principal...\n");
             fclose(DB); //Fecha DB
@@ -307,7 +311,6 @@ int cadastro() {
             fclose(DB); //Fecha DB
             cadastro();
         }
-
     }
 
     return 0;
@@ -326,15 +329,12 @@ void comorbidade() {
     }
 
     printf("\n\nDigite alguma comorbidade do paciente: ");
-    fgets(Paciente.Comorbidade, 20, stdin); //Recebe a String Telefone
+    fgets(Paciente.Comorbidade, 20, stdin); //Recebe a String Comorbidade
 
-    DB = fopen("dadoscomorbidade.txt", "a"); //Abertura do DB para a inserção de dados
-    fprintf(DB, "%s", Paciente.Comorbidade);
-
-    dataAtual();
+    grupoRisco();
 }
 
-void dataAtual() {
+void grupoRisco() {
     //ponteiro para struct que armazena data e hora  
     struct tm *data_hora_atual;     
 
@@ -352,30 +352,40 @@ void dataAtual() {
     int mes = (data_hora_atual->tm_mon+1);
     int ano = (data_hora_atual->tm_year+1900);
 
-	int init_size = strlen(Paciente.Nascimento);
-	char delim[] = "/";
+    int init_size = strlen(Paciente.Nascimento);
+    char delim[] = "/";
 
-	char *ptr = strtok(Paciente.Nascimento, delim);
+    char *ptr = strtok(Paciente.Nascimento, delim);
 
     int i = 0;
     int data[3] = {0};
 
     while (ptr != NULL) {
         if (str2int(&data[i], ptr, 10) == STR2INT_SUCCESS) {
-            // printf("%d\n", data[i]);
             ptr = strtok(NULL, delim);
             i++;
         }
-	}
+    }
 
     int totalIdade = 365 * ano + 30 * mes + dia - 365 * data[2] - 30 * data[1] - data[0];
     int anos = totalIdade / 365;
 
-    printf("%d", anos);
+    int comorbidade = 0;
+    if (str2int(&comorbidade, Paciente.Comorbidade, 10) == STR2INT_SUCCESS) {
+        if ((anos >= E_GRUPO_RISCO) || (anos >= E_GRUPO_RISCO && comorbidade < 5)) {
+            printf("%s", "grupo de risco");
+                DB = fopen("dadoscomorbidade.txt", "a"); //Abertura do DB para a inserção de dados
+                fprintf(DB, "Nome: %sIdade: %dCEP: %s", Paciente.Nome, anos, Paciente.CEP);
+                fprintf(DB, "----------------------\n"); //Salva os dados
+                fclose(DB); //Fecha o Banco de dados
+        }
+    }
+    
+    system("clear");
+    cadastro();
 }
 
 int listar() {
-
     system("clear");
     DB = fopen("dadospaciente.txt", "r"); //Abertura do DB para leitura de dados
 
