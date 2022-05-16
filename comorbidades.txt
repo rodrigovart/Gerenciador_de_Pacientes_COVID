@@ -1,0 +1,5 @@
+1️⃣ - Diabetes
+2️⃣ - Obesidade
+3️⃣ - Hipertensão
+4️⃣ - Tuberculose
+5️⃣ - Sem Comorbidade
