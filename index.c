@@ -89,6 +89,10 @@ void primeiroAcesso() {
     if (DBLOGIN == NULL) { //Verificação do Banco de Dados
         printf("\nErro no Banco de Dados...\n");
     } else {
+        printf("===================================\n");
+        printf("PRIMEIRO ACESSO NO SISTEMA 🆕✅\n");
+        printf("===================================\n\n");
+
         printf("\nDigite o seu Usuario desejado: ");
         fgets(LoginUsuario.Usuario, 25, stdin); //Recebe a String Nome
 
@@ -115,6 +119,10 @@ void login(int clear) {
     if (fp == NULL) { //Verificação do Banco de Dados
         printf("\nErro no Banco de Dados...\n");
     } else {
+        printf("==============================\n");
+        printf("LOGIN NO SISTEMA 🔐✅\n");
+        printf("==============================\n\n");
+
         printf("Usuario: ");
         fgets(LoginUsuario.Usuario, 25, stdin); //Recebe a String Nome
 
@@ -147,7 +155,7 @@ void login(int clear) {
                     menu();
                 } else {
                     printf("Usuário ou Senha Inválidos ❌🔐! Tente novamente...\n\n\n");
-                    // login(1);
+                    login(1);
                 }
             }
         }
@@ -267,7 +275,7 @@ int cadastro() {
         printf("\nDigite seu CPF: ");
         fgets(Paciente.Cpf, 15, stdin); //Recebe a String Cpf
 
-        printf("\nDigite a Data de Nascimento: ");
+        printf("\nDigite a Data de Nascimento (dd/mm/aaaa): ");
         fgets(Paciente.Nascimento, 10, stdin); //Recebe a String Nascimento
 
         printf("\nDigite seu Telefone: ");
