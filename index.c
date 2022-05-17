@@ -55,8 +55,11 @@ typedef enum {
 
 int main() {
 
-    //Limpa a tela (Windows)
+    // limpar tela no windows
+    //system("cls");
+    // limpar tela no mac/linux
     system("clear");
+
     printf("=========================\n");
     printf(" LOGIN NO SISTEMA 🔐\n");
     printf("=========================\n\n");
@@ -83,7 +86,11 @@ int main() {
 
 void primeiroAcesso() {
 
+    // limpar tela no windows
+    //system("cls");
+    // limpar tela no mac/linux
     system("clear");
+
     DBLOGIN = fopen("dadoslogin.txt", "a"); //Abertura do DB para a inserção de dados
 
     if (DBLOGIN == NULL) { //Verificação do Banco de Dados
@@ -111,6 +118,9 @@ void primeiroAcesso() {
 void login(int clear) {
 
     if (clear != 1)
+        // limpar tela no windows
+        //system("cls");
+        // limpar tela no mac/linux
         system("clear");
 
     char * filename = "dadoslogin.txt";
@@ -129,6 +139,9 @@ void login(int clear) {
         printf("\nSenha: ");
         fgets(LoginUsuario.Senha, 6, stdin); //Recebe a String Email
 
+        // limpar tela no windows
+        //system("cls");
+        // limpar tela no mac/linux
         system("clear");
 
         char buffer[MAX_LENGTH];
@@ -149,6 +162,9 @@ void login(int clear) {
                 int result = validaLogin(arr[0], LoginUsuario.Usuario);
                 int result2 = validaLogin(arr[1], LoginUsuario.Senha);
 
+                // limpar tela no windows
+                //system("cls");
+                // limpar tela no mac/linux
                 system("clear");
 
                 if (result == 0 && result2 == 0) {
@@ -170,8 +186,11 @@ int validaLogin(char * str1, char * str2) {
 }
 
 void menu() {
-    //Limpa a tela (Windows)
+    // limpar tela no windows
+    //system("cls");
+    // limpar tela no mac/linux
     system("clear");
+
     printf("=================================\n");
     printf(" GERENCIADOR DE PACIENTES 🚑👨🏻‍⚕️\n");
     printf("=================================\n\n");
@@ -193,6 +212,9 @@ void menu() {
             break;
         case 2:
 
+            // limpar tela no windows
+            //system("cls");
+            // limpar tela no mac/linux
             system("clear");
 
             printf("==============\n");
@@ -218,6 +240,9 @@ void menu() {
             break;
         case 4:
 
+            // limpar tela no windows
+            //system("cls");
+            // limpar tela no mac/linux
             system("clear");
 
             printf("==============\n");
@@ -240,7 +265,11 @@ void menu() {
             break;
         case 5:
 
+            // limpar tela no windows
+            //system("cls");
+            // limpar tela no mac/linux
             system("clear");
+
             printf("######################\n");
             printf("# Fim da Execução... #\n");
             printf("######################\n\n");
@@ -254,7 +283,11 @@ void menu() {
 
 int cadastro() {
 
+    // limpar tela no windows
+    //system("cls");
+    // limpar tela no mac/linux
     system("clear");
+
     DB = fopen("dadospaciente.txt", "a"); //Abertura do DB para a inserção de dados
 
     if (DB == NULL) { //Verificação do Banco de Dados
@@ -292,7 +325,11 @@ int cadastro() {
 
         comorbidade();
 
+        // limpar tela no windows
+        //system("cls");
+        // limpar tela no mac/linux
         system("clear");
+
         printf("\n=============================\n");
         printf("Finalizar cadastro? [s/n]: ");
         scanf("%c", & GlobalPaciente.Cd); //Conclusão do cadastro
@@ -303,13 +340,21 @@ int cadastro() {
 
             fclose(DB); //Fecha o Banco de dados
 
+            // limpar tela no windows
+            //system("cls");
+            // limpar tela no mac/linux
             system("clear");
+
             printf("##########################\n");
             printf("# Cadastro Concluído ✅#\n");
             printf("#########################\n");
             menu();
         } else if (GlobalPaciente.Cd == 'n') {
+            // limpar tela no windows
+            //system("cls");
+            // limpar tela no mac/linux
             system("clear");
+
             printf("Cadastro Cancelado.\nVoltando ao Menu Principal...\n");
             fclose(DB); //Fecha DB
             getchar(); //Corrige bug quando GlobalPaciente.Cd != 's' && 'n'
@@ -325,6 +370,9 @@ int cadastro() {
 } //Fim da função Cadastro
 
 void comorbidade() {
+    // limpar tela no windows
+    //system("cls");
+    // limpar tela no mac/linux
     system("clear");
 
     char * filename = "comorbidades.txt";
@@ -388,12 +436,20 @@ void grupoRisco() {
         }
     }
 
+    // limpar tela no windows
+    //system("cls");
+    // limpar tela no mac/linux
     system("clear");
+
     cadastro();
 }
 
 int listar() {
+    // limpar tela no windows
+    //system("cls");
+    // limpar tela no mac/linux
     system("clear");
+
     DB = fopen("dadospaciente.txt", "r"); //Abertura do DB para leitura de dados
 
     if (DB == NULL) { //Verificação do Banco de dados
